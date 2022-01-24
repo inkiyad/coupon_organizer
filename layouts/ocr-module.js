@@ -52,6 +52,7 @@ const OcrModule = () => {
       console.log(e)
 
   })
+  const onPress = image => console.log(image)
 
   //if (device == null) return <Text>loading<Text/>
   return (
@@ -60,13 +61,12 @@ const OcrModule = () => {
       device={device}
       isActive={true}
     >
-    <TouchableHighlight
-                    style={styles.capture}
-                    onPress={image =>  console.log('image')}
-                    >
-                    <View />
-                </TouchableHighlight>
- 
+      <TouchableHighlight
+          style={styles.capture}
+          onPress={onPress}
+          >
+          <View />
+      </TouchableHighlight>
     </Camera>
   )
   

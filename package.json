@@ -1,5 +1,5 @@
 {
-  "name": "awesomeproject",
+  "name": "CouponOrganizer",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,18 +11,16 @@
   },
   "dependencies": {
     "react": "17.0.2",
-    "react-native": "0.66.4",
-    "react-native-image-picker": "^4.7.0",
-    "rn-text-detector": "^0.0.8"
+    "react-native": "0.67.1",
+    "react-native-vision-camera": "^2.12.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "@babel/runtime": "^7.12.5",
-    "@react-native-community/eslint-config": "^2.0.0",
-    "babel-jest": "^26.6.3",
-    "eslint": "7.14.0",
-    "eslint-plugin-react": "^7.28.0",
-    "jest": "^26.6.3",
+    "@babel/core": "^7.16.10",
+    "@babel/runtime": "^7.16.7",
+    "@react-native-community/eslint-config": "^3.0.1",
+    "babel-jest": "^27.4.6",
+    "eslint": "^8.7.0",
+    "jest": "^27.4.7",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-test-renderer": "17.0.2"
   },

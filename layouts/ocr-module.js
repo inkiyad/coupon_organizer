@@ -1,105 +1,76 @@
-import React, { useState } from 'react'
-import { 
-  Text, 
+import React from 'react';
+import {Camera , useCameraDevices} from 'react-native-vision-camera'
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
-  View ,
-  Image,
-  TouchableOpacity,
-  WrapLoading
+  Text,
+  useColorScheme,
+  View,
+  TouchableHighlight
 } from 'react-native';
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import RNTextDetector from "rn-text-detector";
+
 
 const styles = StyleSheet.create({
-  content: {
-    background: 'blue'
-  },
-  title:{
-    color: 'yellow'
-  },
-  button: {
-    borderColor: 'black' 
-  },
-  shadow: {
-   shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3, 
-  },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000'
+    },
 
-})
+    capture: {
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        borderWidth: 5,
+        borderColor: "blue",
+        backgroundColor: "white",
+        marginBottom: 15
+    },
+    preview: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%'
+    }
 
+});
 
-function getSpace(space){
+const OcrModule = () => {
+  const [device , setDevice] = React.useState({id: "test"})
+  
+  Camera.requestCameraPermission().then(response =>{
+    Camera.getAvailableCameraDevices().then(data =>{
+      const selectedDevice = data.find(device => device.name === 'Back Triple Camera')
+      setDevice(selectedDevice)
 
-  return {
-    width: space
-  }
-}
+    })
+  }).catch(e=>{
+      console.log(e)
 
-
-const OcrModule = () =>{
-  const [state, setState] = useState({
-    loading: false,
-    image: null,
-    textRecognition: null,
   })
-  function onPress(type) {
-    setState({ ...state, loading: true });
-    type === "capture"
-      ? launchCamera({ mediaType: "image" }, onImageSelect)
-      : launchImageLibrary({ mediaType: "image" }, onImageSelect);
-  }
-  async function onImageSelect(media) {
-    if (!media) {
-      setState({ ...state, loading: false });
-      return;
-    }
-    if (!!media && media.assets) {
-      const file = media.assets[0].uri;
-      const textRecognition = await RNTextDetector.detectFromUri(file);
+  const onPress = image => console.log(image)
 
-      // textRecognition
-      console.log(textRecognition)
-
-    }
-  }
-
-
-
+  //if (device == null) return <Text>loading<Text/>
   return (
-    <View style={styles.content}>
-      <View style={getSpace(200)}>
-        <TouchableOpacity style={[styles.button, styles.shadow]}
-          onPress={() => onPress("capture")}>
-          <Text>Take Photo</Text>
-        </TouchableOpacity>
-        <View style={getSpace(200)}>
-          <TouchableOpacity
-            style={[styles.button, styles.shadow]}
-            onPress={() => onPress("library")}
+    <Camera
+      style={styles.preview}
+      device={device}
+      isActive={true}
+    >
+      <TouchableHighlight
+          style={styles.capture}
+          onPress={onPress}
           >
-            <Text>Pick a Photo</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={getSpace(500)}>
-          <View style={{ alignItems: "center" }}>
-            <Image style={[styles.image, styles.shadow]}
-              source={{ uri: state.image }} />
-          </View>
-          {!!state.textRecognition &&
-            state.textRecognition.map(
-              (item, i) => (
-                <Text key={i} style={getSpace(100)}>
-                  {item.text}
-                </Text>
-                ))}
-        </View>
-      </View>
-    </View>
+          <View />
+      </TouchableHighlight>
+    </Camera>
   )
+  
+};
 
-}
 
-
-export default OcrModule
+export default OcrModule;
